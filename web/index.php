@@ -48,16 +48,46 @@ $app->get('/', function () use ($app) {
  * Route: /submit => Submit page
  */
 $app->get('/submit', function () use ($app) {
-	$fp = fopen(APP_ROOT.'output/drink_count.txt', 'c+');
-	flock($fp, LOCK_EX);
+	$user = array_key_exists('PHP_AUTH_USER', $_SERVER) ? $_SERVER['PHP_AUTH_USER'] : null;
 
-	$count = (int)fread($fp, filesize(APP_ROOT.'output/drink_count.txt'));
-	ftruncate($fp, 0);
-	fseek($fp, 0);
-	fwrite($fp, $count + 1);
+	if (!$user) {
+		$user = 'generic';
+	}
 
-	flock($fp, LOCK_UN);
-	fclose($fp);
+	$file = APP_ROOT.'output/drink_count.txt';
+
+	$contents = file_get_contents($file);
+
+	$counts = explode("\n", $contents);
+	if (!$counts) {
+		$counts = array();
+	}
+
+	$user_counts = array();
+
+	foreach ($counts as $count) {
+		$exploded = explode('=', $count);
+
+		if (count($exploded) != 2) {
+			continue;
+		}
+
+		$user_counts[$exploded[0]] = intval($exploded[1]);
+	}
+
+	if (!array_key_exists($user, $user_counts)) {
+		$user_counts[$user] = 0;
+	}
+
+	$user_counts[$user]++;
+
+	$contents = '';
+
+	foreach ($user_counts as $key => $user_count) {
+		$contents .= $key."=".$user_count."\n";
+	}
+
+	file_put_contents($file, $contents, LOCK_EX);
 
 	$return_url = preg_replace('/\/submit.*$/', '?success=true', "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
 
