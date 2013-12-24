@@ -1,0 +1,5 @@
+site:
+    name:           Inuits Drink Bar
+    description:    An application for keeping count of drinks consumed at Inuits
+    author:         'Kalman Olah, Christophe Vanlacker, Inuits'
+    keywords:       'inuits, drinks, magic, such, dev'

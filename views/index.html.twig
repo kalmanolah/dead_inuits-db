@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% set page_title = 'Index' %}
+
+{% block head %}
+{% if app.wallpaper_url is defined %}
+{{ parent() }}
+	<style type="text/css">
+		body {
+			background: url({{ app.wallpaper_url }}) center no-repeat!important;
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			background-size: cover;
+		}
+	</style>
+{% endif %}
+{% endblock %}
+
+{% block body %}
+<div id="content">
+	<div id="content-inner">
+		<h2 class="text-center">
+			Have a <u><strong>drink</strong></u>!
+		</h2>
+		<hr>
+		{% if app.success is defined %}
+			<div class="alert alert-success">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				<strong>Success!</strong>
+				<p>Your drink has been added to the counter.</p>
+			</div>
+		{% endif %}
+		<div id="qrcode" class="qrcode text-center"></div>
+		<hr>
+		<h4 class="text-center">
+			Get the wallpaper here:
+		</h4>
+		<div id="qrcode-wall" class="qrcode text-center"></div>
+		<hr>
+		<div class="text-muted text-center">
+			By <a href="https://twitter.com/@KalmanOlah" target="_blank">@KalmanOlah</a>
+			and <a href="https://twitter.com/@Carroarmato0" target="_blank">@Carroarmato0</a>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% if app.wallpaper_url is defined %}
+{{ parent() }}
+<script>
+	app.submit_url    = '{{ app.submit_url }}';
+	app.wallpaper_url = '{{ app.wallpaper_url }}';
+</script>
+{% endif %}
+{% endblock %}
