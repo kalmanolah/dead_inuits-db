@@ -39,7 +39,7 @@ $app->get('/', function () use ($app) {
 		$app->success = true;
 	}
 
-	$app->submit_url = preg_replace('/\?.*$/', 'submit', "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
+	$app->submit_url = preg_replace('/\?.*$/', 'submit', "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
 
 	return $app['twig']->render('index.html.twig');
 });
@@ -89,7 +89,7 @@ $app->get('/submit', function () use ($app) {
 
 	file_put_contents($file, $contents, LOCK_EX);
 
-	$return_url = preg_replace('/\/submit.*$/', '?success=true', "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
+	$return_url = preg_replace('/\/submit.*$/', '?success=true', "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
 
 	return $app->redirect($return_url);
 });
