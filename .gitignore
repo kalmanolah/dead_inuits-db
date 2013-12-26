@@ -12,7 +12,3 @@ config/config.yml
 
 # cache folder
 cache/
-
-# output folder, except for .gitkeep
-output/*
-!output/.gitkeep

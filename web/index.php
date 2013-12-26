@@ -54,7 +54,7 @@ $app->get('/submit', function () use ($app) {
 		$user = 'generic';
 	}
 
-	$file = APP_ROOT.'output/drink_count.txt';
+	$file = APP_ROOT.'web/drink_count.txt';
 
 	$contents = file_get_contents($file);
 
